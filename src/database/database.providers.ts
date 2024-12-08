@@ -1,4 +1,6 @@
+import { DataSource } from 'typeorm';
 import { AppDataSource } from '../../data-source';
+import { User } from 'src/entity/user.entity';
 
 export const databaseProviders = [
   {
@@ -9,5 +11,10 @@ export const databaseProviders = [
       }
       return AppDataSource;
     },
+  },
+  {
+    provide: 'USER_REPOSITORY',
+    useFactory: (dataSource: DataSource) => dataSource.getRepository(User),
+    inject: ['DATA_SOURCE'],
   },
 ];

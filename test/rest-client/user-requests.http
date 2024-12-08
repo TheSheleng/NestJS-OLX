@@ -1,0 +1,58 @@
+### User registration
+POST http://localhost:3000/users/register
+Content-Type: application/json
+
+{
+  "email": "test101@test.com",
+  "password": "123"
+}
+
+### Login
+POST http://localhost:3000/users/login
+Content-Type: application/json
+
+{
+  "email": "test10@test.com",
+  "password": "StrongPassword123"
+}
+
+### Delete User
+DELETE http://localhost:3000/users/me
+Authorization: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6OCwiZW1haWwiOiJ0ZXN0MkB0ZXN0LmNvbSIsInJvbGUiOiJ1c2VyIiwiaWF0IjoxNzMyNjM0OTQ0LCJleHAiOjE3MzI2Mzg1NDR9.XC1ZNtPfpqAdCZh8wCYeir95MITgsU75Ej_RhTiye3w
+
+### Update user data (including avatar)
+PATCH http://localhost:3000/users/me
+Authorization: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MTIsImVtYWlsIjoidGVzdDEwQHRlc3QuY29tIiwicm9sZSI6InVzZXIiLCJpYXQiOjE3MzI3NDg5MzUsImV4cCI6MTczMjc1MjUzNX0.vRNKDSqn7Gcszzt94qxFbrK_Ow2mnV0gTwUT-NlsS-0
+Content-Type: multipart/form-data; boundary=----MyTest
+
+------MyTest
+Content-Disposition: form-data; name="avatar"; filename="test.png"
+Content-Type: image/png
+
+< ./test.png
+
+------MyTest
+Content-Disposition: form-data; name="updateUserDto"
+Content-Type: application/json
+
+{
+  "name": "New Name",
+}
+------MyTest--
+
+### Send email
+POST http://localhost:3000/users/forgot-password
+Content-Type: application/json
+
+{
+  "email": "thesheleng@gmail.com"
+}
+
+### Reset password
+POST http://localhost:3000/users/reset-password
+Content-Type: application/json
+
+{
+  "token": "your-reset-token",
+  "newPassword": "newSecurePassword123"
+}
