@@ -10,6 +10,7 @@ import {
   Patch,
   UseInterceptors,
   UploadedFile,
+  UseGuards,
 } from '@nestjs/common';
 import { UserService } from '../service/user.service';
 import { RegisterUserDto } from 'src/dto/register-user.dto';
@@ -22,6 +23,8 @@ import { FileInterceptor } from '@nestjs/platform-express';
 import { v4 as uuidv4 } from 'uuid';
 import { MailerService } from '@nestjs-modules/mailer';
 import { ResetUserPasswordDto } from 'src/dto/reset-user-password.dto';
+import { JwtAuthGuard } from 'src/guard/jwt-auth.guard';
+import { User } from 'src/decorator/user.decorator';
 
 @Controller('users')
 export class UserController {
@@ -63,6 +66,7 @@ export class UserController {
   }
 
   @Patch('me')
+  @UseGuards(JwtAuthGuard)
   @UseInterceptors(
     FileInterceptor('avatar', {
       storage: diskStorage({
@@ -91,15 +95,11 @@ export class UserController {
     }),
   )
   async updateUser(
+    @User() user,
     @Req() req: Request,
     @Body() updateUserDto: UpdateUserDto,
     @UploadedFile() avatar: Express.Multer.File,
   ) {
-    // Getting the current user from the token
-    const user = await this.userService.findUserByToken(
-      req.headers.authorization,
-    );
-
     // If the avatar has been loaded, add the URL to the DTO
     if (avatar) {
       const avatarUrl = `/uploads/avatars/${avatar.filename}`;
@@ -120,11 +120,8 @@ export class UserController {
 
   // Method for deleting an account by a user
   @Delete('me')
-  async softDeleteSelf(@Req() req: Request) {
-    const user = await this.userService.findUserByToken(
-      req.headers.authorization,
-    );
-
+  @UseGuards(JwtAuthGuard)
+  async softDeleteSelf(@User() user: any) {
     await this.userService.softDelete(user.id);
     return { message: 'Your account has been deleted successfully.' };
   }

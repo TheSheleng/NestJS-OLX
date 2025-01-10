@@ -97,27 +97,6 @@ export class UserService {
     return user;
   }
 
-  // Method to extract user from token
-  async findUserByToken(token: string): Promise<User> {
-    try {
-      const decoded = this.jwtService.verify(token);
-      const userId = decoded.id;
-
-      // We find the user only if deletedAt is null
-      const user = await this.userRepository.findOne({
-        where: { id: userId, deletedAt: null },
-      });
-
-      if (!user) {
-        throw new UnauthorizedException('User not found');
-      }
-
-      return user;
-    } catch (error) {
-      throw new UnauthorizedException('Invalid or expired token');
-    }
-  }
-
   async updateUser(
     userId: number,
     updateUserDto: UpdateUserDto,

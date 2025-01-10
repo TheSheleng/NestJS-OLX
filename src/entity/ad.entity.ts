@@ -22,9 +22,6 @@ export class Ad extends AbstractEntity<Ad> {
   @ManyToOne(() => Category)
   category: Category;
 
-  @Column({ default: true })
-  isActive: boolean;
-
   @Column({ type: 'timestamp', default: () => 'CURRENT_TIMESTAMP' })
   createdAt: Date;
 }

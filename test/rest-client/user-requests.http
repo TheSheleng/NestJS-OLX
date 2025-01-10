@@ -4,7 +4,7 @@ Content-Type: application/json
 
 {
   "email": "test101@test.com",
-  "password": "123"
+  "password": "123123"
 }
 
 ### Login
@@ -12,13 +12,13 @@ POST http://localhost:3000/users/login
 Content-Type: application/json
 
 {
-  "email": "test10@test.com",
+  "email": "test5@test.com",
   "password": "StrongPassword123"
 }
 
 ### Delete User
 DELETE http://localhost:3000/users/me
-Authorization: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6OCwiZW1haWwiOiJ0ZXN0MkB0ZXN0LmNvbSIsInJvbGUiOiJ1c2VyIiwiaWF0IjoxNzMyNjM0OTQ0LCJleHAiOjE3MzI2Mzg1NDR9.XC1ZNtPfpqAdCZh8wCYeir95MITgsU75Ej_RhTiye3w
+Authorization: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MTAsImVtYWlsIjoidGVzdDVAdGVzdC5jb20iLCJyb2xlIjoidXNlciIsImlhdCI6MTczMzcwNjQwMSwiZXhwIjoxNzMzNzEwMDAxfQ.LcCo94aIEx69lelSHIWQptRs5Hy67wyKJOwsd2Tvoww
 
 ### Update user data (including avatar)
 PATCH http://localhost:3000/users/me
