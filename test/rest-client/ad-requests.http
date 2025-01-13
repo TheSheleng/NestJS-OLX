@@ -1,0 +1,41 @@
+### 
+POST http://localhost:3000/ads/createAd
+Authorization: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MjQsImVtYWlsIjoidGVzdEBnbWFpbC5jb20iLCJyb2xlIjoidXNlciIsImlhdCI6MTczNjc1MzE4NywiZXhwIjoxNzM2NzU2Nzg3fQ.9lMJtZaLWu_zT4sAmwQbH_mGWradMDoJbHBoEgb4tnE
+Content-Type: multipart/form-data; boundary=----MyTest
+
+------MyTest
+Content-Disposition: form-data; name="title"
+
+title 1
+------MyTest
+Content-Disposition: form-data; name="description"
+
+description 1
+------MyTest
+Content-Disposition: form-data; name="price"
+
+200
+------MyTest
+Content-Disposition: form-data; name="category"
+
+7
+------MyTest
+Content-Disposition: form-data; name="images"; filename="1.jpeg"
+Content-Type: image/jpeg
+
+< ./cats/1.jpeg
+------MyTest
+Content-Disposition: form-data; name="images"; filename="2.jpg"
+Content-Type: image/jpg
+
+< ./cats/2.jpg
+------MyTest
+Content-Disposition: form-data; name="images"; filename="3.jpg"
+Content-Type: image/jpg
+
+< ./cats/3.jpg
+------MyTest--
+
+###
+GET http://localhost:3000/ads/search?category='Electronics'
+Content-Type: application/json

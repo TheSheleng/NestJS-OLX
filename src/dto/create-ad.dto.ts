@@ -1,17 +1,19 @@
 // src/dto/create-ad.dto.ts
-import { IsOptional, IsString, IsPhoneNumber } from 'class-validator';
+import { IsOptional, IsString, IsNotEmpty, IsArray } from 'class-validator';
+import { Category } from 'src/entity/category.entity';
 
 export class CreateAdDto {
-  @IsOptional()
   @IsString()
-  name?: string;
-
-  @IsOptional()
-  @IsPhoneNumber()
-  phone?: string;
+  @IsNotEmpty()
+  title: string;
 
   @IsOptional()
   @IsString()
-  avatar?: string;
-  images: string[];
+  description?: string;
+
+  @IsNotEmpty()
+  price: number;
+
+  @IsOptional()
+  category?: Category;
 }

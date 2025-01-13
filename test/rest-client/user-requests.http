@@ -3,7 +3,7 @@ POST http://localhost:3000/users/register
 Content-Type: application/json
 
 {
-  "email": "test101@test.com",
+  "email": "test@gmail.com",
   "password": "123123"
 }
 
@@ -12,17 +12,17 @@ POST http://localhost:3000/users/login
 Content-Type: application/json
 
 {
-  "email": "test5@test.com",
-  "password": "StrongPassword123"
+  "email": "test101@test.com",
+  "password": "123123"
 }
 
 ### Delete User
 DELETE http://localhost:3000/users/me
-Authorization: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MTAsImVtYWlsIjoidGVzdDVAdGVzdC5jb20iLCJyb2xlIjoidXNlciIsImlhdCI6MTczMzcwNjQwMSwiZXhwIjoxNzMzNzEwMDAxfQ.LcCo94aIEx69lelSHIWQptRs5Hy67wyKJOwsd2Tvoww
+Authorization: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6NCwiZW1haWwiOiJ0ZXN0MTA1QGdtYWlsLmNvbSIsInJvbGUiOiJ1c2VyIiwiaWF0IjoxNzM2NzI5Njg2LCJleHAiOjE3MzY3MzMyODZ9.yV5fXBNuuoNMWT2in7HltESDzE75Gs1RkLGlnyWvR0E
 
 ### Update user data (including avatar)
 PATCH http://localhost:3000/users/me
-Authorization: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MTIsImVtYWlsIjoidGVzdDEwQHRlc3QuY29tIiwicm9sZSI6InVzZXIiLCJpYXQiOjE3MzI3NDg5MzUsImV4cCI6MTczMjc1MjUzNX0.vRNKDSqn7Gcszzt94qxFbrK_Ow2mnV0gTwUT-NlsS-0
+Authorization: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6OCwiZW1haWwiOiJ0ZXN0MTExQGdtYWlsLmNvbSIsInJvbGUiOiJ1c2VyIiwiaWF0IjoxNzM2NzQzMzg3LCJleHAiOjE3MzY3NDY5ODd9.4cKjFMoUfeBDpRqpQ4MPBSLlO_GWtPqF2RtBCihzwa4
 Content-Type: multipart/form-data; boundary=----MyTest
 
 ------MyTest
@@ -32,7 +32,7 @@ Content-Type: image/png
 < ./test.png
 
 ------MyTest
-Content-Disposition: form-data; name="updateUserDto"
+Content-Disposition: form-data; 
 Content-Type: application/json
 
 {

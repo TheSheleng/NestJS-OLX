@@ -1,5 +1,5 @@
 // entity/ad.entity.ts
-import { Entity, Column, ManyToOne, Index } from 'typeorm';
+import { Entity, Column, ManyToOne, Index, JoinColumn } from 'typeorm';
 import { User } from './user.entity';
 import { Category } from './category.entity';
 import { AbstractEntity } from '../database/abstract.entity';
@@ -19,7 +19,8 @@ export class Ad extends AbstractEntity<Ad> {
   @Index()
   owner: User;
 
-  @ManyToOne(() => Category)
+  @ManyToOne(() => Category, (category) => category.ads)
+  @JoinColumn({ name: 'categoryId' })
   category: Category;
 
   @Column({ type: 'timestamp', default: () => 'CURRENT_TIMESTAMP' })

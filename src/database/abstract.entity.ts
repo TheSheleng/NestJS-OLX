@@ -6,8 +6,4 @@ export class AbstractEntity<T> {
 
   @Column({ type: 'timestamp', nullable: true })
   deletedAt: Date;
-
-  constructor(entity: Partial<T>) {
-    Object.assign(this, entity);
-  }
 }

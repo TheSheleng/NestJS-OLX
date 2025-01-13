@@ -1,32 +1,67 @@
 import {
+  Inject,
   Injectable,
   NotFoundException,
   UnauthorizedException,
 } from '@nestjs/common';
 import { Repository } from 'typeorm';
-import { InjectRepository } from '@nestjs/typeorm';
 import { Ad } from '../entity/ad.entity';
 import { User } from '../entity/user.entity';
 import { CreateAdDto } from 'src/dto/create-ad.dto';
 import { UpdateAdDto } from 'src/dto/update-ad.dto';
+import { CACHE_MANAGER } from '@nestjs/cache-manager';
+import { Cache } from 'cache-manager';
+import { Category } from 'src/entity/category.entity';
+import { AdImage } from 'src/entity/ad-image.entity';
 
 @Injectable()
 export class AdService {
   constructor(
-    @InjectRepository(Ad)
+    @Inject('AD_REPOSITORY')
     private readonly adRepository: Repository<Ad>,
-    @InjectRepository(User)
+    @Inject('AD_IMAGES_REPOSITORY')
+    private readonly adImageRepository: Repository<Ad>,
+    @Inject('USER_REPOSITORY')
     private readonly userRepository: Repository<User>,
+    @Inject(CACHE_MANAGER)
+    private readonly cacheManager: Cache,
   ) {}
 
-  async createAd(createAdDto: CreateAdDto, userId: number): Promise<Ad> {
+  async createAd(
+    userId: number,
+    title: string,
+    price: number,
+    imagesPath: string[],
+    category?: Category,
+    description?: string,
+  ): Promise<Ad> {
     const user = await this.userRepository.findOne({ where: { id: userId } });
     if (!user) {
       throw new UnauthorizedException('User not found');
     }
 
-    const ad = this.adRepository.create({ ...createAdDto, owner: user });
-    return this.adRepository.save(ad);
+    const ad = this.adRepository.create({ 
+      title, 
+      price,
+      category, 
+      description, 
+      owner: user,
+    });
+
+    const savedAd = await this.adRepository.save(ad);
+
+    const adImages = imagesPath.map((path) => {
+      const adImage = new AdImage();
+      adImage.url = path;
+      adImage.ad = savedAd;
+      return adImage;1
+    });
+
+    // Сохраняем все изображения разом
+    await this.adImageRepository.save(adImages);
+
+    // Возвращаем сохранённое объявление
+    return savedAd;
   }
 
   async updateAd(
@@ -77,6 +112,7 @@ export class AdService {
 
   async searchAds(title?: string, category?: string): Promise<Ad[]> {
     const query = this.adRepository.createQueryBuilder('ad');
+    query.leftJoinAndSelect('ad.category', 'category')
 
     if (title) {
       query.andWhere('ad.title ILIKE :title', { title: `%${title}%` });

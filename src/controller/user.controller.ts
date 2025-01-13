@@ -72,9 +72,6 @@ export class UserController {
       storage: diskStorage({
         destination: './uploads/avatars',
         filename: (req, file, callback) => {
-          if (!file) {
-            return callback(new Error('No file uploaded'), null);
-          }
           const fileExtName = path.extname(file.originalname);
           const fileName = `${uuidv4()}${fileExtName}`;
           callback(null, fileName);
@@ -96,7 +93,6 @@ export class UserController {
   )
   async updateUser(
     @User() user,
-    @Req() req: Request,
     @Body() updateUserDto: UpdateUserDto,
     @UploadedFile() avatar: Express.Multer.File,
   ) {
